@@ -3,8 +3,8 @@
 apiurl <- 'https://covidtracking.com/api/v1/states/VA/daily.csv'
 coltype <- 'cciiiiiiiiiicciiiinciiiii'
 newdata <- readr::read_csv(apiurl, col_types = coltype)
-newdata$date <- lubridate::ymd(vacovdata$date)
-newdata$dateChecked <- lubridate::ymd_hms(vacovdata$dateChecked)
+newdata$date <- lubridate::ymd(newdata$date)
+newdata$dateChecked <- lubridate::ymd_hms(newdata$dateChecked)
 
 ## check to make sure that no data has been dropped from the original dataset
 dropped <- dplyr::anti_join(vacovdata::vacovdata, newdata, by='date')
@@ -49,6 +49,12 @@ if(update) {
     ## Positive test fractions
   vacovdata$fpos <- vacovdata$positiveIncrease / vacovdata$totalTestResultsIncrease
   vacovdata$fposCumulative <- vacovdata$positive / vacovdata$totalTestResults
+
+  ## population and new test fraction
+  vacovdata$vapop <- 8517685
+  vacovdata$ftest <- vacovdata$totalTestResultsIncrease / vacovdata$vapop
+  vacovdata$ftestCumulative <- vacovdata$totalTestResults / vacovdata$vapop
+
 
   usethis::use_data(vacovdata, overwrite=TRUE)
 }

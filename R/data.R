@@ -5,7 +5,7 @@
 #' the COVID Tracking Project (https://covidtracking.com/)
 #'
 #' @format
-#' Data frame with 21 columns
+#' Data frame with 24 columns
 #' \describe{
 #' \item{date}{Date of the report}
 #' \item{positive}{Cumulative number of positive tests.}
@@ -37,6 +37,10 @@
 #' number of new confirmed cases.}
 #' \item{fpos}{Fraction of positive tests on this day.}
 #' \item{fposCumulative}{Cumulative fraction of positive tests.}
+#' \item{vapop}{Total population.  This is presumed constant over the time period
+#' being considered here.}
+#' \item{ftest}{Fraction of the total population tested on this day.}
+#' \item{ftestCuulative}{Total fraction of population tested.}
 #' }
 #'
 #' @source
