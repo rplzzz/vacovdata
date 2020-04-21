@@ -1,0 +1,16 @@
+Package: vacovdata
+Title: COVID-19 Data for the Commonwealth of Virginia
+Version: 0.1.0.9000
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Provide state-level COVID-19 data for the Commonwealth of Virginia.
+    This data was originally collected by the Virginia Department of Health and
+    has been collated and archived by the COVID Tracking Project.  
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
