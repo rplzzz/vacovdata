@@ -44,13 +44,13 @@ being considered here.}
 }
 }
 \source{
-https://covidtracking.com/api/v1/states/VA/daily.csv
+\url{https://covidtracking.com/api/v1/states/VA/daily.csv}
 }
 \usage{
 vacovdata
 }
 \description{
 This data was produced by the Virginia Department of Health and archived by
-the COVID Tracking Project (https://covidtracking.com/)
+the COVID Tracking Project (\url{https://covidtracking.com/})
 }
 \keyword{datasets}

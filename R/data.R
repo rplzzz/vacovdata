@@ -2,7 +2,7 @@
 #' COVID-19 data for the Commonwealth of Virginia
 #'
 #' This data was produced by the Virginia Department of Health and archived by
-#' the COVID Tracking Project (https://covidtracking.com/)
+#' the COVID Tracking Project (\url{https://covidtracking.com/})
 #'
 #' @format
 #' Data frame with 24 columns
@@ -44,6 +44,6 @@
 #' }
 #'
 #' @source
-#' https://covidtracking.com/api/v1/states/VA/daily.csv
+#' \url{https://covidtracking.com/api/v1/states/VA/daily.csv}
 #'
 "vacovdata"

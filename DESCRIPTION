@@ -1,6 +1,6 @@
 Package: vacovdata
 Title: COVID-19 Data for the Commonwealth of Virginia
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: 
     person(given = "First",
            family = "Last",

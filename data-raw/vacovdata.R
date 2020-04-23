@@ -18,7 +18,7 @@ selvars <- c('date',
              'totalTestResults', 'totalTestResultsIncrease')
 newdchk <- newdata[,selvars]
 olddchk <- vacovdata::vacovdata[, selvars]
-chk <- dplyr::left_join(newdchk, olddchk, by='date')
+chk <- dplyr::left_join(olddchk, newdchk, by='date')
 chk$totalTestResultsIncrease.x[is.na(chk$totalTestResultsIncrease.x)] <- 0
 chk$totalTestResultsIncrease.y[is.na(chk$totalTestResultsIncrease.y)] <- 0
 
@@ -55,6 +55,8 @@ if(update) {
   vacovdata$ftest <- vacovdata$totalTestResultsIncrease / vacovdata$vapop
   vacovdata$ftestCumulative <- vacovdata$totalTestResults / vacovdata$vapop
 
+  ## put in date order
+  vacovdata <- dplyr::arrange(vacovdata, date)
 
   usethis::use_data(vacovdata, overwrite=TRUE)
 }
