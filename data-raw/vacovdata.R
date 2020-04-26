@@ -32,8 +32,18 @@ if(all(dateok)) {
 } else {
   baddates <- chk$date[!dateok]
   warning(length(baddates), ' dates had data discrepancies.  Check `baddates` for dates.  Package data will not be updated.')
-  udate <- FALSE
+
+  ## Allow user to override the block on updating, if they have determined that the
+  ## data is ok.
+  if(exists('ACCEPT_DISCREPANCY') && ACCEPT_DISCREPANCY) {
+    update <- TRUE
+    ACCEPT_DISCREPANCY <- FALSE
+    warning('ACCEPT_DISCREPANCY is set; package data will be updated.')
+  } else {
+    update <- FALSE
+  }
 }
+
 
 if(update) {
   vacovdata <- dplyr::select(newdata,
