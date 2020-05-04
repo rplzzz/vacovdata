@@ -6,6 +6,22 @@ newdata <- readr::read_csv(apiurl, col_types = coltype)
 newdata$date <- lubridate::ymd(newdata$date)
 newdata$dateChecked <- lubridate::ymd_hms(newdata$dateChecked)
 
+## On May 2nd the state started reporting "unique tests performed" alongside
+## total tests performed, and this caused a break in the time series.  (The number
+## of tests performed that day shows as negative.)  To correct this, we add back
+## the discrepancy between total and unique tests.  Daily increments get it added
+## on May 2nd only.  Cumulative totals get it added on May 2nd and all days thereafter.
+## The practical upshot is that cumulative totals are the sum of total tests up through
+## May 2nd and unique tests thereafter.
+may2disc <- 112450 - 101344
+may2exact <- newdata$date == as.Date('2020-05-02')
+may2post <- newdata$date >= as.Date('2020-05-02')
+
+newdata$negative[may2post] <- newdata$negative[may2post] + may2disc
+newdata$totalTestResults[may2post] <- newdata$totalTestResults[may2post] + may2disc
+newdata$negativeIncrease[may2exact] <- newdata$negativeIncrease[may2exact] + may2disc
+newdata$totalTestResultsIncrease[may2exact] <- newdata$totalTestResultsIncrease[may2exact] + may2disc
+
 ## check to make sure that no data has been dropped from the original dataset
 dropped <- dplyr::anti_join(vacovdata::vacovdata, newdata, by='date')
 if(nrow(dropped) != 0) {

@@ -44,6 +44,7 @@ being considered here.}
 }
 }
 \source{
+Virginia Department of Health, via the COVID Tracking Project.
 \url{https://covidtracking.com/api/v1/states/VA/daily.csv}
 }
 \usage{
@@ -53,4 +54,20 @@ vacovdata
 This data was produced by the Virginia Department of Health and archived by
 the COVID Tracking Project (\url{https://covidtracking.com/})
 }
+\section{Data notes}{
+
+
+Starting on 05/02, total test and negative test counts are reported
+based on the unique tests performed, rather than on the raw test counts.
+In the previous two versions this caused cumulative counts to drop on
+that date.  This patch makes a correction based on the discrepancy on
+May 2nd.
+
+The practical upshot of this change is that the cumulative counts of
+negative tests and total tests are based on all tests performed up to
+May 2nd, plus unique tests performed after that.  This means the
+definition of those quantities is a bit inconsistent over time, but at
+least we don't get a negative test count on May 2nd.
+}
+
 \keyword{datasets}
