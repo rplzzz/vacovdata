@@ -1,7 +1,7 @@
 ## process vacovdata dataset
 
 apiurl <- 'https://covidtracking.com/api/v1/states/VA/daily.csv'
-coltype <- 'cciiiiiiiiiicciiiinciiiii'
+coltype <- 'cciiiiiiiiiicccciiiiiiiiiii'
 newdata <- readr::read_csv(apiurl, col_types = coltype)
 newdata$date <- lubridate::ymd(newdata$date)
 newdata$dateChecked <- lubridate::ymd_hms(newdata$dateChecked)
