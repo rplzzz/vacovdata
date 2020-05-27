@@ -1,0 +1,84 @@
+---
+title: "Observed COVID-19 Prevalence in the Commonwealth of Virginia"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Observed COVID-19 Prevalence in the Commonwealth of Virginia}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE}
+library(vacovdata)
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+library(latex2exp)
+```
+
+## Raw prevalence observations
+
+These are the raw positive test fractions, statewide, uncorrected for enrichment 
+due to targeted testing (what we call $\hat{f}$ in our paper).   
+
+```{r rawobs}
+pltdata <- filter(vacovdata, date > as.Date('2020-03-15'), !is.na(fpos)) %>%
+  select(date, fpos, npos=positiveIncrease, nneg=negativeIncrease) %>%
+  mutate(flo = qbeta(0.025, npos+1, nneg+1), fhi = qbeta(0.975, npos+1, nneg+1))
+
+ggplot(pltdata, aes(x=date)) +
+  geom_point(aes(y=fpos), size=1.5) +
+  geom_errorbar(aes(ymin=flo, ymax=fhi)) +
+  ylab(TeX('$\\hat{f}$')) +
+  theme_bw()
+```
+
+Note, however, that there are several days in May that saw dramatic increases in
+the number of tests performed.
+
+```{r ntest}
+pltdata <- mutate(pltdata, ntest = npos+nneg)
+## Will use these May correlations below
+maydata <- filter(pltdata, date >= as.Date('2020-05-01'))
+maycor <- signif(cor(maydata$ntest, maydata$fpos, method='spearman'),2)
+
+ggplot(pltdata, aes(x=date, y=ntest)) +
+  geom_line(size=1.2) +
+  ylab('Number of tests') +
+  theme_bw()
+```
+
+These excess tests, relative to the surrounding days, tend to be negative, producing
+low outlier points in the plot of $\hat{f}$, particularly on May 1st, 15th, 20th,
+and 24th.  Overall for the month of May, the correlation between the number of
+tests performed and the estimate of $\hat{f}$ (measured by the Spearman correlation
+coefficient, $\rho_s$) is $\rho_s = `r maycor`$.  This high correlation suggests
+that on the days with a surge in testing, a different selection procedure is being
+used, resulting in a different enrichment factor.
+
+## Growth rates
+
+Both the positive test fraction and the growth rates derived from it are quite 
+noisy, so we use a 5-day sliding window to accumulate observations.
+
+```{r growthplt}
+grpltdata <- select(vacovdata, date, pos=positive, tot=totalTestResults) %>%
+  fitgr(5) %>% 
+  filter(date > as.Date('2020-03-18'), !is.na(kobs))
+
+ggplot(grpltdata, aes(x=date)) +
+  geom_point(aes(y=kobs, color='uncorrected'), size=1.5) +
+  geom_smooth(aes(y=kobs, color='uncorrected'), se=FALSE) +
+  geom_point(aes(y=kpop, color='corrected'), size=1.5) +
+  geom_smooth(aes(y=kpop, color='corrected'), se=FALSE) +
+  coord_cartesian(ylim=c(-0.1,0.25)) +
+  scale_color_solarized() +
+  theme_bw()
+```
+
