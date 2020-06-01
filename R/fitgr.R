@@ -22,18 +22,7 @@ fitgr <- function(obsdata, winsize=7, poscol='pos', totcol='tot',
                   iscumul=TRUE, ksmooth=7)
 {
   date <- obsdata[['date']]
-  ddate <- as.numeric(c(NA_real_, diff(date)))
   fpos <- smoothprev(obsdata, winsize, poscol, totcol, iscumul)
-  # if(iscumul) {
-  #   npos <- obsdata[[poscol]]
-  #   dnpos <- c(NA_real_, diff(npos)) / ddate
-  #   dntot <- c(NA_real_, diff(obsdata[[totcol]])) / ddate
-  # }
-  # else {
-  #   dnpos <- obsdata[[poscol]]
-  #   dntot <- obsdata[[totcol]]
-  # }
-  # fpos <- dnpos/dntot
 
   ## Days with no tests will have NaN values, so we need to drop them.  Also,
   ## days with a positive test fraction of 0 are going to create NaN values,
