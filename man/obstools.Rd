@@ -6,7 +6,14 @@
 \alias{smoothprev}
 \title{Extract measurements from observations}
 \usage{
-fitgr(obsdata, winsize = 7, poscol = "pos", totcol = "tot", iscumul = TRUE)
+fitgr(
+  obsdata,
+  winsize = 7,
+  poscol = "pos",
+  totcol = "tot",
+  iscumul = TRUE,
+  ksmooth = 7
+)
 
 smoothprev(
   obsdata,
@@ -20,17 +27,23 @@ smoothprev(
 \item{obsdata}{Data frame of observations.  Date in column date
 daily normalized observations in column given in the \code{col} argument}
 
-\item{winsize}{Window size for smoothing}
+\item{winsize}{Window size calculating rates and positive fractions}
 
 \item{poscol}{Name of the column holding the positive observations}
 
 \item{totcol}{Name of the column holding the total observations}
 
 \item{iscumul}{Flag indicating whether poscol and totcol are cumulative}
+
+\item{ksmooth}{Smoothing length in days for growth rates.  Zero means no smoothing.}
 }
 \description{
 Extract measurements of growth rates and sample prevalences from observed data.
 The observations are relatively noisy, so windowed smoothing is used.
+}
+\details{
+If \code{smooth} is set, the smoothing is done \emph{before} the growth rate
+bias correction is applied.
 }
 \section{Functions}{
 \itemize{

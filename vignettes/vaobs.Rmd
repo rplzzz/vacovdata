@@ -69,15 +69,16 @@ noisy, so we use a 5-day sliding window to accumulate observations.
 
 ```{r growthplt}
 grpltdata <- select(vacovdata, date, pos=positive, tot=totalTestResults) %>%
-  fitgr(5) %>% 
-  filter(date > as.Date('2020-03-18'), !is.na(kobs))
+  fitgr(7) %>% 
+  filter(date > as.Date('2020-03-21'), !is.na(kobs))
 
 ggplot(grpltdata, aes(x=date)) +
   geom_point(aes(y=kobs, color='uncorrected'), size=1.5) +
   geom_smooth(aes(y=kobs, color='uncorrected'), se=FALSE) +
   geom_point(aes(y=kpop, color='corrected'), size=1.5) +
   geom_smooth(aes(y=kpop, color='corrected'), se=FALSE) +
-  coord_cartesian(ylim=c(-0.1,0.25)) +
+  #coord_cartesian(ylim=c(-0.1,0.3)) +
+  #xlim(as.Date(c('2020-04-01', '2020-05-30'))) +
   scale_color_solarized() +
   theme_bw()
 ```
