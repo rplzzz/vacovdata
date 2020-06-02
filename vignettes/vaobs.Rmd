@@ -65,7 +65,7 @@ used, resulting in a different enrichment factor.
 ## Growth rates
 
 Both the positive test fraction and the growth rates derived from it are quite 
-noisy, so we use a 5-day sliding window to accumulate observations.
+noisy, so we use a 7-day sliding window to accumulate observations.
 
 ```{r growthplt}
 grpltdata <- select(vacovdata, date, pos=positive, tot=totalTestResults) %>%
